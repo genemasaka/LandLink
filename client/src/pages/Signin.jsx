@@ -61,7 +61,8 @@ export default function Signin() {
           <span className='text-blue-700'>Sign up</span>
         </Link>
       </div>
-      {error && <p className='text-red-600 mt-5'>{error}</p>}
+      {/* fix the error in the <p> component below*/}
+      {/* {error && <p className='text-red-600 mt-5'>{error}</p>} */}
     </div>
   )
 }
