@@ -1,50 +1,122 @@
-import React from 'react'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 export default function CreateListing() {
+    const navigate = useNavigate();
+    const {currentUser} = useSelector(state => state.user);
+    const [files, setFiles] = useState([]);
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        description: '',
+        address: '',
+        amenities: '',
+        regularRate: 0,
+        discountedRate: 0,
+        plotSize: 0,
+
+    })
+    const handleImageSubmit = (e) => {
+        if (files.length > 0 && files.length < 7) {
+            const promises = [];
+
+            for (let i = 0; i < files.length; i++) {
+                promises.push(storeImage(files[i]));
+                const fileName = new Date().getTime() + file.name;
+            }
+        }
+    }
+
+    const storeImage = async (file) => {
+        return new Promise((resolve, reject) => {
+
+        })
+    }
+    
+    const handleChange = (e) => {
+        if (e.target.type === 'number' || e.target.type === 'text' || e.target.type === 'textarea') {
+            setFormData({
+                ...formData,
+                [e.target.id]: e.target.value,
+            })
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if(+formData.regularRate < +formData.discountedRate) return setError("Discounted rate must be lower than the Regular rate!")
+            setLoading(true);
+            setError(false);
+            const res = await fetch('/api/listing/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    userRef: currentUser._id,
+                }),
+            })
+            const data = await res.json();
+            setLoading(false);
+            if (data.success === false) {
+                setError(data.message);
+            }
+            navigate(`/listing/${data._id}`)
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+        }
+    }
   return (
     <main className='p-3 max-w-4xl mx-auto'>
         <h1 className='text-3xl font-semibold text-center my-7'>
             Create a Listing
         </h1>
-        <form className='flex flex-col sm:flex-row gap-6'>
+        <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-6'>
             <div className='flex flex-col gap-4 flex-1'>
                 <input type="text" placeholder='Name' className='border p-3
-                rounded-lg' id='name' maxLength='62' minLength='10' required/>
+                rounded-lg' id='name' maxLength='62' minLength='10' required onChange={handleChange} value={formData.name}/>
                 <textarea type="text" placeholder='Description' className='border p-3
-                rounded-lg' id='description'  required/>
+                rounded-lg' id='description'  required onChange={handleChange} value={formData.description}/>
                 <input type="text" placeholder='Address' className='border p-3
-                rounded-lg' id='address'  required/>
+                rounded-lg' id='address'  required onChange={handleChange} value={formData.address}/>
                 <textarea type="text" placeholder='Amenities' className='border p-3
-                rounded-lg' id='amenities'  required/>
+                rounded-lg' id='amenities'  required onChange={handleChange} value={formData.amenities}/>
 
                 <div className='flex flex-wrap gap-6'>
                     <div className='flex items-center gap-2'>
-                    <span>Regular Rate</span>
                     <input type="number" placeholder='Ksh per month' className='border p-3
-                    rounded-lg' id='regular-rate'  required/>
+                    rounded-lg' id='regular-rate'  required onChange={handleChange} />
+                    <span>Regular Rate (ksh/month)</span>
                     </div>
                     <div className='flex items-center  gap-2'>
-                    <span className=''>Discounted Rate</span>
                     <input type="number" placeholder='Ksh per month' className='border p-3
-                    rounded-lg' id='dicounted-rate'  required/>
+                    rounded-lg' id='dicounted-rate' required onChange={handleChange} />
+                    <span className=''>Discounted Rate (ksh/month)</span>
                     </div>
                     <div className='flex items-center gap-2'>
-                    <span>Plot Size</span>
                     <input type="number" placeholder='Acres' className='border p-3
-                    rounded-lg' id='plot-size'  required/>
+                    rounded-lg' id='plot-size' required onChange={handleChange} />
+                    <span>Plot Size (acres)</span>
+                   
                     </div>
                 </div>
             </div>
             <div className="flex flex-col flex-1 gap-4">
                <p className='font-semibold'>Images:
-               <span className='font-normal text-gray-600 'mt-2>The first image will be the cover(Max: 6)</span>                
+               <span className='font-normal text-gray-600 mt-2 '>The first image will be the cover(Max: 6)</span>                
                </p>
                <div className="flex gap-4">
-                <input className='p-3 border border-gray-300 rounded w-full' type="file" id="images" accept='images/*' multiple />
-                <button className='p-3 text-green-600 border border-green-600 rounded uppercase hover:shadow-lg disabled:opacity-80'>Upload</button>
+                <input onChange={(e)=>{setFiles(e.target.files)}} className='p-3 border border-gray-300 rounded w-full' type="file" id="images" accept='images/*' multiple />
+                <button type='button' onClick={handleImageSubmit} className='p-3 text-green-600 border border-green-600 rounded uppercase hover:shadow-lg disabled:opacity-80'>Upload</button>
                </div>
-               <button className='p-3 text-white bg-slate-600 rounded-lg uppercase hover:opacity-95 disabled:opacity-80 ' >Create Listing</button>
-
+               <button className='p-3 text-white bg-slate-600 rounded-lg uppercase 
+               hover:opacity-95 disabled:opacity-80 ' >{loading ? 'Creating...' : 'Create Listing'}</button>
+               {error && <p className='text-red-600 text-sm'>{error}</p>}
             </div>
         </form>
     </main>
