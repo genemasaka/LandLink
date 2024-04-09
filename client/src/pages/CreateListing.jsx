@@ -9,7 +9,7 @@ export default function CreateListing() {
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
-        name: '',
+        title: '',
         description: '',
         address: '',
         amenities: '',
@@ -17,7 +17,9 @@ export default function CreateListing() {
         discountedRate: 0,
         plotSize: 0,
 
-    })
+    });
+    console.log(formData);
+    
     const handleImageSubmit = (e) => {
         if (files.length > 0 && files.length < 7) {
             const promises = [];
@@ -36,12 +38,17 @@ export default function CreateListing() {
     }
     
     const handleChange = (e) => {
-        if (e.target.type === 'number' || e.target.type === 'text' || e.target.type === 'textarea') {
+        if (
+            e.target.type === 'text' ||
+            e.target.type === 'textarea' ||
+            e.target.type === 'number'
+          ) {
             setFormData({
-                ...formData,
-                [e.target.id]: e.target.value,
-            })
+              ...formData,
+              [e.target.id]: e.target.value,
+            });
         }
+  
     }
 
     const handleSubmit = async (e) => {
@@ -78,8 +85,8 @@ export default function CreateListing() {
         </h1>
         <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-6'>
             <div className='flex flex-col gap-4 flex-1'>
-                <input type="text" placeholder='Name' className='border p-3
-                rounded-lg' id='name' maxLength='62' minLength='10' required onChange={handleChange} value={formData.name}/>
+                <input type="text" placeholder='Title' className='border p-3
+                rounded-lg' id='title' maxLength='62' minLength='10' required onChange={handleChange} value={formData.title}/>
                 <textarea type="text" placeholder='Description' className='border p-3
                 rounded-lg' id='description'  required onChange={handleChange} value={formData.description}/>
                 <input type="text" placeholder='Address' className='border p-3
@@ -90,25 +97,25 @@ export default function CreateListing() {
                 <div className='flex flex-wrap gap-6'>
                     <div className='flex items-center gap-2'>
                     <input type="number" placeholder='Ksh per month' className='border p-3
-                    rounded-lg' id='regular-rate'  required onChange={handleChange} />
+                    rounded-lg' id='regularRate'  required onChange={handleChange} value={formData.regularRate}/>
                     <span>Regular Rate (ksh/month)</span>
                     </div>
                     <div className='flex items-center  gap-2'>
                     <input type="number" placeholder='Ksh per month' className='border p-3
-                    rounded-lg' id='dicounted-rate' required onChange={handleChange} />
+                    rounded-lg' id='discountedRate' required onChange={handleChange} value={formData.discountedRate}/>
                     <span className=''>Discounted Rate (ksh/month)</span>
                     </div>
                     <div className='flex items-center gap-2'>
                     <input type="number" placeholder='Acres' className='border p-3
-                    rounded-lg' id='plot-size' required onChange={handleChange} />
+                    rounded-lg' id='plotSize' required onChange={handleChange} value={formData.plotSize} />
                     <span>Plot Size (acres)</span>
                    
                     </div>
                 </div>
             </div>
             <div className="flex flex-col flex-1 gap-4">
-               <p className='font-semibold'>Images:
-               <span className='font-normal text-gray-600 mt-2 '>The first image will be the cover(Max: 6)</span>                
+               <p className='font-semibold'>Images: 
+               <span className='font-normal text-gray-600 mt-2 '> The first image will be the cover(Max: 6)</span>                
                </p>
                <div className="flex gap-4">
                 <input onChange={(e)=>{setFiles(e.target.files)}} className='p-3 border border-gray-300 rounded w-full' type="file" id="images" accept='images/*' multiple />
