@@ -72,7 +72,7 @@ export default function CreateListing() {
             if (data.success === false) {
                 setError(data.message);
             }
-            navigate(`/listings/${data._id}`)
+            navigate(`/listing/${data._id}`)
         } catch (error) {
             setError(error.message);
             setLoading(false);
