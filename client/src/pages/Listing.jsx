@@ -93,7 +93,7 @@ export default function Listing() {
             </div>
             <div className='flex flex-row item-center'>
             <span className='font-semibold'>Amenities - </span>
-            <p className=' ' >{listing.amenities} ksh/month</p>
+            <p className=' ' >{listing.amenities}</p>
             </div>
 
             <div className='flex gap-4'>
