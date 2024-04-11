@@ -84,6 +84,10 @@ export default function Listing() {
               {listing.description}
             </p>
             <div className='flex flex-row item-center'>
+            <span className='font-semibold'>Plot size - </span>
+            <p className=' ' >{listing.plotSize} acres</p>
+            </div>
+            <div className='flex flex-row item-center'>
             <span className='font-semibold'>Regular Rate - </span>
             <p className=' ' >{listing.regularRate.toLocaleString('en-US')} ksh/month</p>
             </div>
