@@ -5,6 +5,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.10.0/fireba
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from '../redux/user/userSlice.js';
 import { __DO_NOT_USE__ActionTypes } from '@reduxjs/toolkit';
 import { Link } from 'react-router-dom';
+import IMAGES from '../assets/images/Images.jsx'
 
 export default function Profile() {
   const fileRef = useRef(null);
@@ -132,7 +133,7 @@ export default function Profile() {
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input onChange = {(e)=> setFile(e.target.files[0])} type='file' ref={fileRef} hidden accept='image/.*' />
-        <img onClick={() => fileRef.current.click()} src={currentUser.avatar} alt="profile" className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2" />
+        <img onClick={() => fileRef.current.click()} src={currentUser.avatar || IMAGES.image1} alt="profile" className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"  />
         <input onChange={handleChange} defaultValue={currentUser.username} id='username' type="text" placeholder='Username' className='border p-3 rounded-lg'/>
         <input onChange={handleChange} defaultValue={currentUser.email} id='email' type="email" placeholder='Email' className='border p-3 rounded-lg'/>
         <input onChange={handleChange} id='password' type="password" placeholder='Password' className='border p-3 rounded-lg'/>

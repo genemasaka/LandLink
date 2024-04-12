@@ -74,24 +74,27 @@ export default function Listing() {
               <FaMapMarkerAlt className='text-green-700' />
               {listing.address}
             </p>
+            <div className='flex flex-row item-center gap-3'>
+            <span className='font-semibold text-black'>Description </span>
             <p className='text-slate-800'>
-              <span className='font-semibold text-black'>Description - </span>
               {listing.description}
             </p>
-            <div className='flex flex-row item-center'>
-            <span className='font-semibold'>Plot size - </span>
+            </div>
+
+            <div className='flex flex-row item-center gap-3'>
+            <span className='font-semibold'>Plot size  </span>
             <p className=' ' >{listing.plotSize} acres</p>
             </div>
-            <div className='flex flex-row item-center'>
-            <span className='font-semibold'>Regular Rate - </span>
+            <div className='flex flex-row item-center gap-3'>
+            <span className='font-semibold'>Regular Rate </span>
             <p className=' ' >{listing.regularRate.toLocaleString('en-US')} ksh/month</p>
             </div>
-            <div className='flex flex-row item-center'>
-            <span className='font-semibold'>Discounted Rate - </span>
+            <div className='flex flex-row item-center gap-3'>
+            <span className='font-semibold'>Discounted Rate  </span>
             <p className=' ' >{listing.discountedRate.toLocaleString('en-US')} ksh/month</p>
             </div>
-            <div className='flex flex-row item-center'>
-            <span className='font-semibold'>Amenities - </span>
+            <div className='flex flex-row item-center gap-3'>
+            <span className='font-semibold'>Amenities </span>
             <p className=' ' >{listing.amenities}</p>
             </div>
 
