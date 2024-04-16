@@ -29,7 +29,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/listings', listingRouter);
 app.use(express.static(path.join(__dirname, '/clinet/dist')))
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'index.html'))
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
 })
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
