@@ -72,7 +72,7 @@ export default function UpdateListing() {
             if(+formData.regularRate < +formData.discountedRate) return setError("Discounted rate must be lower than the Regular rate!")
             setLoading(true);
             setError(false);
-            const res = await fetch(`/api/listings/update/${params.listingId}`, {
+            const res = await fetch(`/api/listing/update/${params.listingId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

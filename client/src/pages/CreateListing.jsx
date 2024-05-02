@@ -57,7 +57,7 @@ export default function CreateListing() {
             if(+formData.regularRate < +formData.discountedRate) return setError("Discounted rate must be lower than the Regular rate!")
             setLoading(true);
             setError(false);
-            const res = await fetch('/api/listings/create', {
+            const res = await fetch('/api/listing/create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
