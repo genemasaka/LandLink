@@ -7,7 +7,7 @@ export default function Home() {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const res = await fetch('/api/listings/get?searchTerm=&limit=6')
+        const res = await fetch('/api/listing/get?searchTerm=&limit=6')
         const data = await res.json(res)
         setListings(data);
       } catch (error) {
